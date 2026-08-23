@@ -29,7 +29,7 @@ detector.py         detector.py
 
 ### `color_common.py`
 
-Base de todos os outros módulos. Define:
+Definição:
 
 - **`ColorSpaceHSV`** — dataclass com os limites min/max de um espaço de cor
   HSV (H, S, V). Método `.mask(imagem)` retorna a máscara binária dos pixels
