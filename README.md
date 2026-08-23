@@ -181,8 +181,9 @@ código:
 ## Integração futura com redes neurais (FCNN da bola)
 
 O artigo usa uma FCNN só para a bola (os outros três — fronteira,
-obstáculo, linha — são heurísticos, como implementado aqui). Passos para
-integrar:
+obstáculo, linha — são heurísticos, como implementado aqui). 
+
+Passos para integrar:
 
 1. **Módulo separado**: crie `ball_fcnn_detector.py`, paralelo aos três
    já existentes, seguindo a mesma convenção de assinatura
@@ -193,7 +194,7 @@ integrar:
    pixel-a-pixel (ativação 0–1); é preciso extrair o pico/blob mais forte
    — o artigo faz isso em C++ por performance, mas um
    `cv2.connectedComponentsWithStats` sobre o heatmap binarizado (como já
-   usamos em `obstacle_detector.py`) resolve numa primeira versão em
+   usado em `obstacle_detector.py`) resolve numa primeira versão em
    Python puro.
 4. **Classe unificadora (`Candidate Finder`)**: se no futuro você quiser
    generalizar `Obstacle` e o candidato da bola sob uma interface comum
@@ -202,7 +203,7 @@ integrar:
    centro+raio) e um método `contains(ponto)`.
 5. **Uso do resultado do filtro de partículas**: os `line_points` e a
    fronteira do campo, gerados aqui, são exatamente as observações que
-   alimentam a localização Monte Carlo que você já implementou — feche o
+   alimentam a localização Monte Carlo já implementada — feche o
    ciclo trocando o simulador (`obter_observacao_camera()`) por chamadas
    reais a `detect_line_points()`/`detect_field_boundary()` na imagem ao
    vivo.
