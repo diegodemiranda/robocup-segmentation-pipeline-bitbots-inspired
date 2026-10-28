@@ -1,10 +1,10 @@
-# Pipeline de Segmentação — Detecção de Campo, Obstáculos e Linhas
+# Pipeline de Segmentação / Segmentation Pipeline
 
 [🇧🇷 Versão em Português](#-pipeline-de-segmentação--detecção-de-campo-obstáculos-e-linhas) | [🇺🇸 English Version](#-segmentation-pipeline--field-boundary-obstacle-and-line-detection)
 
 ---
 
-### 🇧🇷 Português
+## 🇧🇷 Pipeline de Segmentação — Detecção de Campo, Obstáculos e Linhas
 
 Implementação didática inspirada no artigo *"An Open Source Vision Pipeline
 Approach for RoboCup Humanoid Soccer"* (Fiedler, Brandt, Gutsche, Vahl,
@@ -149,7 +149,7 @@ white,0,180,0,60,180,255
 
 ## Integração futura com ROS
 
-O artigo usa ROS como middleware e publica mensagens padronizadas (Seção 1 e
+O artigo usa ROS como middleware e publishes mensagens padronizadas (Seção 1 e
 Fig. 2, bloco "ROS message generation"). Para chegar até lá a partir deste
 código:
 
@@ -172,14 +172,14 @@ código:
    parâmetros ROS (`rosparam`/`dynamic_reconfigure` no ROS 1, ou parâmetros
    declarados + callback no ROS 2), permitindo recalibrar em tempo real
    durante testes, como o artigo faz.
-4. **Debug**: `draw_debug_image()` em `main_pipeline.py` já gera a imagem de
+4. **Debug**: `draw_debug_image()` in `main_pipeline.py` já gera a imagem de
    debug — no ROS isso vira apenas mais uma publicação em um tópico
    `/vision/debug_image`, ativável por parâmetro (o artigo torna esse passo
    opcional por custo de performance).
-5. **Separação de threads/nós**: o artigo roda a detecção convencional e a
+5. **Separação de threads/nós**: o artigo roda a detecção unconventional e a
    FCNN da bola em paralelo (duas threads dentro do mesmo nó, para evitar
    overhead de mensageria entre nós). Ao integrar no ROS 2, considere o mesmo:
-   um único nó, com as chamadas aos três módulos + FCNN rodando de forma
+   u nó único, com as chamadas aos três módulos + FCNN rodando de forma
    assíncrona, publicando ao final.
 
 ## Integração futura com redes neurais (FCNN da bola)
@@ -202,7 +202,7 @@ Passos para integrar:
    puro.
 4. **Classe unificadora (`Candidate Finder`)**: se no futuro você quiser
    generalizar `Obstacle` e o candidato da bola sob uma interface comum (o
-   artigo propõe as classes `Candidate`/`CandidateFinder` para isso), vale
+   artigo prope as classes `Candidate`/`CandidateFinder` para isso), vale
    extrair uma classe base com múltiplas representações (canto + dimensão,
    centro + raio) e um método `contains(ponto)`.
 5. **Uso do resultado do filtro de partículas**: os `line_points` e a fronteira
@@ -223,13 +223,9 @@ Passos para integrar:
 | `line_detector.py` | `detect_line_points` | `color_common.py` |
 | `main_pipeline.py` | `run`, `draw_debug_image` | os quatro acima |
 
-
-
 ---
 
-### 🇺🇸 English
-
-# Segmentation Pipeline — Field Boundary, Obstacle, and Line Detection
+## 🇺🇸 Segmentation Pipeline — Field Boundary, Obstacle, and Line Detection
 
 A modular computer vision pipeline for RoboCup humanoid soccer, implementing classical image processing techniques for field boundary detection, obstacle classification, and field marking point detection using HSV color segmentation and OpenCV.
 
@@ -237,9 +233,9 @@ This project is inspired by *An Open Source Vision Pipeline Approach for RoboCup
 
 The implementation is intended for experimentation, algorithm development, and integration into larger robotic perception systems.
 
-## Related Projects
+### Related Projects
 
-### RoboCup Vision Pipeline
+#### RoboCup Vision Pipeline
 
 **Repository:** [robocup-vision-pipeline](https://github.com/diegodemiranda/robocup-vision-pipeline)
 
@@ -254,7 +250,7 @@ This repository can be explored and tested independently of the broader vision s
 
 The existence of the related project does not imply a direct software dependency: integration depends on the interfaces and data structures used by each component.
 
-## Architecture
+### Architecture
 
 The pipeline uses a modular pipe-and-filter design. The shared color processing module provides HSV masks to the individual detectors, which can then be orchestrated by the main pipeline.
 
@@ -275,7 +271,7 @@ The pipeline uses a modular pipe-and-filter design. The shared color processing 
                   Orchestration and debug
 ```
 
-## Features
+### Features
 
 - HSV-based color segmentation with configurable color ranges.
 - Field boundary detection using column-wise scanning.
@@ -287,9 +283,9 @@ The pipeline uses a modular pipe-and-filter design. The shared color processing 
 - Debug image generation for visual inspection of detections.
 - CSV-based configuration of HSV color ranges.
 
-## Modules
+### Modules
 
-### `color_common.py`
+#### `color_common.py`
 
 Defines the shared color representation and segmentation utilities.
 
@@ -327,7 +323,7 @@ Constructs a `ColorDetector` from a dictionary of HSV color ranges, regardless o
 
 This module corresponds conceptually to the Color Detector component described in Section 3.1 of the referenced paper. Unlike the paper's adaptive lookup-table approach for field color detection, this implementation uses configurable HSV ranges for all supported color classes.
 
-### `field_boundary_detector.py`
+#### `field_boundary_detector.py`
 
 Main function:
 
@@ -356,7 +352,7 @@ Returns:
 
 The detected points and hull mask are subsequently used by the obstacle and line detection modules.
 
-### `obstacle_detector.py`
+#### `obstacle_detector.py`
 
 Main function:
 
@@ -394,7 +390,7 @@ The `.bbox` property provides the bounding-box representation.
 
 **Note:** these are heuristic classifications based on color and geometry, not semantic classifications produced by a trained neural network.
 
-### `line_detector.py`
+#### `line_detector.py`
 
 Main function:
 
@@ -423,7 +419,7 @@ A sampled point is accepted only if it falls within the marking mask.
 
 The resulting points can be used by downstream localization algorithms, provided the expected coordinate conventions and data structures are compatible.
 
-### `main_pipeline.py`
+#### `main_pipeline.py`
 
 Coordinates the field boundary, obstacle, and line detection modules.
 
@@ -431,9 +427,9 @@ The main pipeline combines their outputs and generates a debug image named `debu
 
 This module serves as the entry point for running the segmentation pipeline, subject to the interface exposed by its implementation.
 
-## Configuration
+### Configuration
 
-### Using default HSV values
+#### Using default HSV values
 
 The pipeline includes example HSV values for initial testing:
 
@@ -443,7 +439,7 @@ color_spaces = DEFAULT_COLOR_SPACES
 
 These values should not be assumed to work reliably under different lighting conditions, cameras, or simulation environments.
 
-### Loading calibrated HSV values from CSV
+#### Loading calibrated HSV values from CSV
 
 For calibrated color ranges, load the values from a CSV file:
 
@@ -456,7 +452,6 @@ The CSV file must contain one row per color class and the following columns:
 ```csv
 classe,h_min,h_max,s_min,s_max,v_min,v_max
 field,35,85,50,255,30,255
-marking,0,180,0,60,180,255
 red,0,10,100,255,80,255
 blue,100,130,100,255,80,255
 white,0,180,0,60,180,255
@@ -466,7 +461,7 @@ The values above are examples only. They must be calibrated for the actual image
 
 The CSV loading operation is implemented in `load_color_spaces_from_csv()` in `color_common.py`.
 
-## Installation
+### Installation
 
 The implementation uses Python, OpenCV, NumPy, and pandas.
 
@@ -485,7 +480,7 @@ cd robocup-segmentation-pipeline-bitbots-inspired
 
 The commands above assume that the repository is publicly available at the specified URL and that its files are located at the repository root.
 
-## Running the Pipeline
+### Running the Pipeline
 
 The main entry point is `main_pipeline.py`.
 
@@ -499,7 +494,7 @@ If the pipeline completes successfully, the current implementation generates a d
 
 The precise runtime arguments and input configuration depend on the code in `main_pipeline.py`.
 
-## ROS Integration
+### ROS Integration
 
 This repository currently describes a standalone image-processing pipeline. Its modules can serve as building blocks for a ROS 2 perception node, but ROS integration requires an additional adapter layer.
 
@@ -517,7 +512,7 @@ The detected marking points and field boundary may also be useful to a localizat
 
 These steps describe a possible integration path, not functionality that is necessarily implemented in this repository.
 
-## Neural Network Integration
+### Neural Network Integration
 
 The referenced paper uses a fully convolutional neural network (FCNN) for ball detection alongside conventional image-processing modules.
 
@@ -532,7 +527,7 @@ A potential implementation would:
 
 The details depend on the selected model and its output format. Neural network ball detection is a potential extension and should not be considered an existing feature unless it has been implemented separately.
 
-## Project Structure
+### Project Structure
 
 The main modules and their responsibilities are summarized below.
 
@@ -544,7 +539,7 @@ The main modules and their responsibilities are summarized below.
 | `line_detector.py` | Sampling points belonging to field markings | `color_common.py`, NumPy, OpenCV |
 | `main_pipeline.py` | Pipeline orchestration and debug image generation | The modules above |
 
-## Limitations
+### Limitations
 
 The current approach relies on classical image processing and heuristic rules. Its performance may vary with:
 
@@ -558,19 +553,19 @@ HSV thresholds should be calibrated for the target environment. The obstacle det
 
 The pipeline also does not, by itself, establish real-world field coordinates from image coordinates. This requires a compatible geometric projection or localization component.
 
-## Reference
+### Reference
 
 Fiedler, Brandt, Gutsche, Vahl, Hagge, and Bestmann. *An Open Source Vision Pipeline Approach for RoboCup Humanoid Soccer*. Hamburg Bit-Bots.
 
 The implementation is inspired by the modular architecture and selected processing ideas described in this work. It should not be interpreted as a complete reproduction of the original system.
 
-## License
+### License
 
 Add a `LICENSE` file to this repository and specify the license under which the implementation is distributed.
 
 Before choosing a license, verify the licensing terms applicable to the original reference material and any third-party code incorporated into this project.
 
-## Contributing
+### Contributing
 
 Contributions that improve modularity, calibration, testing, performance, or integration with robotics systems are welcome.
 
@@ -581,7 +576,7 @@ When submitting changes, please:
 3. Include tests or reproducible examples for new behavior.
 4. Document any assumptions about image input, color calibration, or camera orientation.
 
-## Acknowledgements
+### Acknowledgements
 
 This project is inspired by the work of the Hamburg Bit-Bots team on modular vision pipelines for RoboCup humanoid soccer.
 
