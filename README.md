@@ -1,4 +1,4 @@
-# Vision Pipeline — Detecção de Campo, Obstáculos e Linhas
+# Segmentation Pipeline — Detecção de Campo, Obstáculos e Linhas
 
 Implementação didática inspirada no artigo *"An Open Source Vision Pipeline
 Approach for RoboCup Humanoid Soccer"* (Fiedler, Brandt, Gutsche, Vahl,
