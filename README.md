@@ -1,10 +1,13 @@
-# Pipeline de Segmentação / Segmentation Pipeline
-
-[🇧🇷 Versão em Português](#-pipeline-de-segmentação--detecção-de-campo-obstáculos-e-linhas) | [🇺🇸 English Version](#-segmentation-pipeline--field-boundary-obstacle-and-line-detection)
+<p align="center">
+  <b>Selecionar Idioma / Select Language</b><br>
+  <a href="#-português">🇧🇷 Português</a> • <a href="#-english">🇺🇸 English</a>
+</p>
 
 ---
 
-## 🇧🇷 Pipeline de Segmentação — Detecção de Campo, Obstáculos e Linhas
+---
+<a id="-português"></a>
+# 🇧🇷 Pipeline de Segmentação — Detecção de Campo, Obstáculos e Linhas
 
 Implementação didática inspirada no artigo *"An Open Source Vision Pipeline
 Approach for RoboCup Humanoid Soccer"* (Fiedler, Brandt, Gutsche, Vahl,
@@ -224,8 +227,8 @@ Passos para integrar:
 | `main_pipeline.py` | `run`, `draw_debug_image` | os quatro acima |
 
 ---
-
-## 🇺🇸 Segmentation Pipeline — Field Boundary, Obstacle, and Line Detection
+<a id="-english"></a>
+# 🇺🇸 Segmentation Pipeline — Field Boundary, Obstacle, and Line Detection
 
 A modular computer vision pipeline for RoboCup humanoid soccer, implementing classical image processing techniques for field boundary detection, obstacle classification, and field marking point detection using HSV color segmentation and OpenCV.
 
